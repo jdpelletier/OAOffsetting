@@ -75,7 +75,7 @@ def main():
                 end = endString.split()
             print("Sending star at %s to %s..." % (startString, endString))
             dx = gscale * (int(start[0])-int(end[0])
-            dy = gscale * (int(end[1]-start[1]))
+            dy = gscale * (int(end[1])-int(start[1]))
             gxy(dx, dy)
 
     except KeyboardInterrupt:
