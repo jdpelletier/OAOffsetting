@@ -74,8 +74,8 @@ def main():
                 endString = input('Error: Enter input as x y (no comma): ')
                 end = endString.split()
             print("Sending star at %s to %s..." % (startString, endString))
-            dx = gscale * (start[0]-end[0])
-            dy = gscale * (end[1]-start[1])
+            dx = gscale * (int(start[0])-int(end[0])
+            dy = gscale * (int(end[1]-start[1]))
             gxy(dx, dy)
 
     except KeyboardInterrupt:
