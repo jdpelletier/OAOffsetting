@@ -70,7 +70,7 @@ def main():
                 start = startString.split()
             endString = input('Enter the destination guider pixel coordinates (no comma): ')
             end = endString.split()
-            while len(end) != 2 or ',' in startString:
+            while len(end) != 2 or ',' in endString:
                 endString = input('Error: Enter input as x y (no comma): ')
                 end = endString.split()
             print("Sending star at %s to %s..." % (startString, endString))
