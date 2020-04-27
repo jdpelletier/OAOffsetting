@@ -63,20 +63,24 @@ def main():
 
     try:
         while(True):
-            startString = input('Enter the guider pixel coordinates of the target (no comma): ')
-            start = startString.split()
-            while len(start) != 2 or ',' in startString:
-                startString = input('Error: Enter input as x y (no comma): ')
+            try:
+                startString = input('Enter the guider pixel coordinates of the target (no comma): ')
                 start = startString.split()
-            endString = input('Enter the destination guider pixel coordinates (no comma): ')
-            end = endString.split()
-            while len(end) != 2 or ',' in endString:
-                endString = input('Error: Enter input as x y (no comma): ')
+                while len(start) != 2 or ',' in startString:
+                    startString = input('Error: Enter input as x y (no comma): ')
+                    start = startString.split()
+                endString = input('Enter the destination guider pixel coordinates (no comma): ')
                 end = endString.split()
-            print("Sending star at %s to %s..." % (startString, endString))
-            dx = gscale * (int(start[0])-int(end[0])
-            dy = gscale * (int(end[1])-int(start[1]))
-            gxy(dx, dy)
+                while len(end) != 2 or ',' in endString:
+                    endString = input('Error: Enter input as x y (no comma): ')
+                    end = endString.split()
+                print("Sending star at %s to %s..." % (startString, endString))
+                dx = gscale * (int(start[0])-int(end[0])
+                dy = gscale * (int(end[1])-int(start[1]))
+                gxy(dx, dy)
+            except ValueError:
+                print("\nWARNING: only enter numbers.\n")
+                continue
 
     except KeyboardInterrupt:
         print('\n\nGuider Acquire ending...\n\n')
