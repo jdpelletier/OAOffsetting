@@ -10,17 +10,7 @@ else:
 
 dcs = ktl.Service('dcs')
 instrument = dcs.read('INSTRUME')
-instService = ktl.Service(instrument)
-gscale = instService.read('gscale')
-
-def gxy(x, y):
-    tvxoff = self.dcs['tvxoff']
-    tvyoff = self.dcs['tvyoff']
-    tvxoff.write(x, rel2curr = 't')
-    tvyoff.write(y, rel2curr = 't')
-    print("Offset executed")
-    return True
-
+gscale = getScales(instrument, 'gscale')
 
 def main():
 
