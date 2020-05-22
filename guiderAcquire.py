@@ -3,6 +3,8 @@ import platform
 
 import ktl
 
+from OAOUtil import getGscale
+
 if platform.system() == "Windows":
     os.system('cls')
 else:
@@ -10,7 +12,7 @@ else:
 
 dcs = ktl.Service('dcs')
 instrument = dcs.read('INSTRUME')
-gscale = getScales(instrument, 'gscale')
+gscale = getScales(instrument.lower())
 
 def main():
 

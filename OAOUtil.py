@@ -2,17 +2,20 @@ import time
 import datetime
 from subprocess import Popen, PIPE
 from pathlib import Path
+import logging
 
 import ktl
 
+dcs = ktl.Service('dcs')
+
 def gxy(x, y):
-    tvxoff = self.dcs['tvxoff']
-    tvyoff = self.dcs['tvyoff']
+    tvxoff = dcs['tvxoff']
+    tvyoff = dcs['tvyoff']
     tvxoff.write(x, rel2curr = 't')
     tvyoff.write(y, rel2curr = 't')
     print("Offset executed")
     elapsedTime = wftel()
-    log = KeckLogger.getLogger()
+    log = myLogger()
     log.info("[gxy] offset %f, %f in guider coordinates" % (x, y))
     print("[gxy] wftel completed in %f sec" % elapsedTime)
     return True
@@ -24,7 +27,7 @@ def nightpath():
         nightly = nightly / 'nightly1'
     else:
         nightly = nightly / 'nightly2'
-    date = datetime.datetime.now()
+    date = datetime.datetime.utcnow()
     year, month, day = str(date.strftime("%y")), str(date.strftime("%m")), str(date.strftime("%d"))
     nightly = nightly / year / month / day
     return nightly
@@ -33,8 +36,8 @@ def checkNightpath():
     nightly = nightpath()
     return nightly.exists()
 
-def getGscale(instrument, scale):
-    scale_dict = {'mosfire' : ktl.read(instrument, 'gscale'),
+def getGscale(instrument):
+    scale_dict = {'mosfire' : 0.164,
                   'lris' : 0.239,
                   'hires' : 0.086,
                   'osiris' : 0.1338,
@@ -44,18 +47,19 @@ def getGscale(instrument, scale):
                   'esi' : 0.233,
                   'deimos' : 0.207,
                   'nires': 0.244}
-    return scale_dict[instrument][scale]
+    return scale_dict[instrument]
 
-def getLogger():
+def myLogger():
     log = logging.getLogger('MyLogger')
     log.setLevel(logging.INFO)
     nightly = nightpath()
-    nightly = nightly / 'instrumentOffsets.log'
+    nightly = nightly / 'instrumentOffsets'
     LogFileHandler = logging.FileHandler(nightly)
     LogFormat = logging.Formatter('%(asctime)s:%(message)s',
                                   datefmt='%Y-%m-%d %H:%M:%S')
     LogFileHandler.setFormatter(LogFormat)
     log.addHandler(LogFileHandler)
+    return log
 
 def wftel():
     dcs = ktl.Service('dcs')
